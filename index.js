@@ -22,10 +22,6 @@ app.use(userRoutes)
 dotenv.config({path:'./config.env'})
 
 
-/*mongoose.connect('mongodb://127.0.0.1:27017/todolist'  no me esta tomando el local host  || mongodb://localhost:27017/todolist
-, { useNewUrlParser: true, useUnifiedTopology: true })  */
-
-
 mongoose.connect(process.env.DATABASE,{
     useNewUrlParser:true,
     useUnifiedTopology:true,
@@ -51,27 +47,51 @@ const item3= new Item({nombre:'texto de ejemplo 3'})
 const defaultItems=[item1,item2,item3]
 
 
-/* Item.insertMany(defaultItems)
+/* esto debe estar en (en la clase que se ve el ejemplo de artistas dice como ordenar el codigo)
+
+Item.insertMany(defaultItems)
     .then(()=>{
         console.log('se insertaron de forma correcta en la BD')
     })
     .catch(error=>{
         console.log('error al insertar los items')
-    }) */
+    }) 
+*/
 
+//rutas
 
 app.get('/',(req,res)=>{
     Item.find({})
-    .then(function(error,foundItems){
-        console.log(foundItems)
+    .then(function(foundItems){
+        if(foundItems===0){
+            Item.insertMany(defaultItems)
+            console.log('se insertaron de forma correcta en la BD')
+        }else{
+            console.log(foundItems)
         res.render('pages/list',{listTitle:'hoy', newListItems:foundItems})
+        }
     })
 })
 
+app.post('/',(req,res)=>{
+    const itemNombre=req.body.newTodo
+    const item=new Item({
+        nombre:itemNombre
+    })
+    item.save()
+    res.redirect('/')
+})
 
-
-
-
+app.post('/delete',(req,res)=>{
+    const checkId=req.body.checkbox
+    Item.findByIdAndRemove(checkId)
+    .then(function(error){
+        if(error){
+            console.log('se borro el dato')
+            res.redirect('/')
+        }
+    })
+})
 
 app.listen(process.env.PORT,()=>{
     console.log('servidor iniciado')

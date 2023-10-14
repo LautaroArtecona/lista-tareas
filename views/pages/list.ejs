@@ -1,5 +1,41 @@
 <%- include ('../partials/header')-%>
+<body class="container text-center">
 
+    <div class="row justify-content-center mt-5">
+        <h1 class="col-6">Lista de tareas</h1>
+    </div>
+
+    <div class="row justify-content-center mt-3">
+        <% for(let i=0; i< newListItems.length ; i++) { %>
+        <form action="/delete" method="post">
+            <div class="form-check col-7">
+                <input class="form-check-input" type="checkbox" name="checkbox" onchange="form.submit()" value="<%=newListItems[i].id%>" id="flexCheckDefault">
+                <label class="form-check-label" for="flexCheckDefault">
+                    <%= newListItems[i].nombre %>
+                </label>
+            </div>
+        </form>
+        <% } %>
+    </div>
+
+
+    <form method="post" action="/" class="justify-content-center mt-3 row no-wrap">
+        <button type="submit" name="listSubmit" class="btn btn-primary col-auto">+</button>
+        <div class="col-sm-7">
+          <input type="text" name="newTodo" class="form-control" autocomplete="off">
+        </div>
+    </form>
+
+
+<!--     <form  class="justify-content-center mt-3 row no-wrap">
+        <button type="submit" class="btn btn-primary col-auto">+</button>
+        <input type="text" class="col-sm-6">
+    </form>
+ -->
+
+
+
+</body>
 
 
 
