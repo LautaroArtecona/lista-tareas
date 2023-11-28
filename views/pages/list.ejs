@@ -7,8 +7,8 @@
 
     <div class="row justify-content-center mt-3">
         <% for(let i=0; i< newListItems.length ; i++) { %>
-        <form action="/delete" method="post">
-            <div class="form-check col-7">
+        <form action="/delete" method="post" class="col-sm-7">
+            <div class="form-check">
                 <input class="form-check-input" type="checkbox" name="checkbox" onchange="form.submit()" value="<%=newListItems[i].id%>" id="flexCheckDefault">
                 <label class="form-check-label" for="flexCheckDefault">
                     <%= newListItems[i].nombre %>
